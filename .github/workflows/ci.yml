@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: pwd
+        env:
+          SOURCE: ${{ pwd }}
+      - run: echo $SOURCE
+      # - run: sudo rsync -u -r --delete --force `pwd`/html/ ${{ secrets.PROJECT_PATH }}
