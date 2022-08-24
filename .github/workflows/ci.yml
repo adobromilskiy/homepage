@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy code
-      - run: sudo rsync -u -r --delete --force `pwd`/html/ ${{ secrets.PROJECT_PATH }}
+        run: sudo rsync -u -r --delete --force `pwd`/html/ ${{ secrets.PROJECT_PATH }}
 
       - name: Setup permisions
-      - run: |
+        run: |
           sudo chown -R ${{ secrets.PROJECT_OWNER }}:${{ secrets.PROJECT_OWNER }} ${{ secrets.PROJECT_PATH }}
           sudo find ${{ secrets.PROJECT_PATH }} -type d -exec chmod 775 {} +
           sudo find ${{ secrets.PROJECT_PATH }} -type f -exec chmod 664 {} +
