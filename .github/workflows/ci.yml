@@ -10,7 +10,4 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-        env:
-          SOURCE: ${{ pwd }}
-      - run: echo $SOURCE
-      # - run: sudo rsync -u -r --delete --force `pwd`/html/ ${{ secrets.PROJECT_PATH }}
+      - run: sudo rsync -u -r --delete --force `pwd`/html/ ${{ secrets.PROJECT_PATH }}
