@@ -1,3 +1,3 @@
 # homepage
 
-Some text
+![image info](./hello.jpg)
