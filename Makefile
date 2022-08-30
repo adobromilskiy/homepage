@@ -7,4 +7,4 @@ help:
 .PHONY: srv
 ## srv: runs docker nginx container with mounted html on port 80
 srv:
-	@docker build -t homepage . && docker run --rm -p 80:80 homepage
+	@docker build -t homepage . && docker run --rm -p 80:80 -v html:/usr/share/nginx/html homepage
