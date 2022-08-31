@@ -1,5 +1,5 @@
 # homepage
 
-One more homepage! Contact information in a simple design.
+Source code of my homepage: contact information in a simple design.
 
-Use command `make srv` to launch server locally.
+Use command `make srv` to run server locally.
