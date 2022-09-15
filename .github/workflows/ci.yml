@@ -8,17 +8,30 @@ on:
 jobs:
 
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
 
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Deploy code
-        run: sudo rsync -u -r --delete --force `pwd`/html/ ${{ secrets.PROJECT_PATH }}
+      - name: Make archive
+        run: tar -czf html.tar.gz html
 
-      - name: Setup permisions
-        run: |
-          sudo chown -R ${{ secrets.PROJECT_OWNER }}:${{ secrets.PROJECT_OWNER }} ${{ secrets.PROJECT_PATH }}
-          sudo find ${{ secrets.PROJECT_PATH }} -type d -exec chmod 775 {} +
-          sudo find ${{ secrets.PROJECT_PATH }} -type f -exec chmod 664 {} +
+      - name: Deploy
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          USER: ${{ secrets.USER }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASSWORD }}
+          scp: |
+            ./html.tar.gz => /home/${{ secrets.USER }}
+          last_ssh: |
+            sudo mv /home/${{ secrets.USER }}/html.tar.gz ${{ secrets.PROJECT_PATH }}
+            cd ${{ secrets.PROJECT_PATH }}
+            sudo tar -xzf html.tar.gz
+            sudo chown -R www-data:www-data ${{ secrets.PROJECT_PATH }}
+            sudo find ${{ secrets.PROJECT_PATH }} -type d -exec chmod 775 {} +
+            sudo find ${{ secrets.PROJECT_PATH }} -type f -exec chmod 664 {} +
+            sudo rm html.tar.gz
